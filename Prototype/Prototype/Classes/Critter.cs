@@ -16,6 +16,10 @@ namespace Prototype.Classes
         float hp;
         float damageValue = 0;
         float affinityMultiplier = 1;
+        float attackInc = 0, defenceInc = 0;
+        public float speedDec = 0;
+        int atkIncPPs = 0, defIncPPs = 0;
+        public int spdDecPPs = 0;
         bool effective = false;
         bool ineffective = false;
 
@@ -72,8 +76,53 @@ namespace Prototype.Classes
 
         public float Attack(Skill useSkill)
         {
-            damageValue = (baseAttack + useSkill.Power) * affinityMultiplier;
-            return damageValue;
+            if (useSkill.Type == "SupportSkill")
+            {
+                switch (useSkill.Name)
+                {
+                    case "AtkUp":
+                        if (atkIncPPs <= 3) attackInc += baseAttack * .2f;
+                        break;
+                    case "DefUp":
+                        if (defIncPPs <= 3) defenceInc += baseDefense * .2f;
+                        break;
+                    default:
+                        break;
+                }
+                return 0;
+            }
+            else
+            {
+                damageValue = ((baseAttack + useSkill.Power) * affinityMultiplier) + attackInc;
+                return damageValue;
+            }
+        }
+
+        public float Attack(Skill useSkill, Critter enemyCritter)
+        {
+            if (useSkill.Type == "SupportSkill")
+            {
+                switch (useSkill.Name)
+                {
+                    case "AtkUp":
+                        if (atkIncPPs <= 3) attackInc += baseAttack * .2f;
+                        break;
+                    case "DefUp":
+                        if (defIncPPs <= 3) defenceInc += baseDefense * .2f;
+                        break;
+                    case "SpdDwn":
+                        if (spdDecPPs <= 3) enemyCritter.speedDec += enemyCritter.BaseSpeed * .3f;
+                        break;
+                    default:
+                        break;
+                }
+                return 0;
+            }
+            else
+            {
+                damageValue = ((baseAttack + useSkill.Power) * affinityMultiplier) + attackInc;
+                return damageValue;
+            }
         }
 
         public void TakeDamage(float damageTaken)
