@@ -16,6 +16,8 @@ namespace Prototype.Classes
         float hp;
         float damageValue = 0;
         float affinityMultiplier = 1;
+        bool effective = false;
+        bool ineffective = false;
 
         public Critter(string name, float baseAttack, float baseDefense, float baseSpeed, string affinity, Skill[] skills, float hp)
         {
@@ -37,37 +39,40 @@ namespace Prototype.Classes
         public void CompareSkills(Critter opponentCritter)
         {
             if (affinity == opponentCritter.affinity) affinityMultiplier = .5f;
-            else if (affinity == "Light" && opponentCritter.affinity == "Dark") affinityMultiplier = 2f;
-            else if (affinity == "Dark" && opponentCritter.affinity == "Light") affinityMultiplier = 2f;
-            else if (affinity == "Fire" && opponentCritter.affinity == "Water") affinityMultiplier = 2f;
-            else if (affinity == "Light" && opponentCritter.affinity == "Dark") affinityMultiplier = 2f;
-            else if (affinity == "Light" && opponentCritter.affinity == "Dark") affinityMultiplier = 2f;
 
-            /*switch (affinity)
+            switch (affinity)
             {
                 case "Light":
-                
-                    Console.WriteLine("Case 1");
+                    if (opponentCritter.affinity == "Dark") effective = true;
                     break;
                 case "Dark":
-                    Console.WriteLine("Case 2");
+                    if (opponentCritter.affinity == "Light") effective = true;
                     break;
                 case "Fire":
-                    ;
+                    if (opponentCritter.affinity == "Water") effective = true; 
                     break;
-                case "Fire":
-                    ;
+                case "Water":
+                    if (opponentCritter.affinity == "Wind") effective = true;
+                    else if (opponentCritter.affinity == "Fire") ineffective = true;
                     break;
-                case "Fire":
-                    ;
+                case "Earth":
+                    if (opponentCritter.affinity == "Wind") effective = true;
                     break;
+                case "Wind":
+                    if (opponentCritter.affinity == "Water" || opponentCritter.affinity == "Earth") ineffective = true;
+                    break;
+                default:
+                    break;
+            }
 
-            }*/
+            if (effective) affinityMultiplier = 2f;
+            else if (ineffective) affinityMultiplier = .5f;
+            else affinityMultiplier = 1f;
         }
 
         public float Attack(Skill useSkill)
         {
-            damageValue = (baseAttack + useSkill.Power) * 
+            damageValue = (baseAttack + useSkill.Power) * affinityMultiplier;
             return damageValue;
         }
 
