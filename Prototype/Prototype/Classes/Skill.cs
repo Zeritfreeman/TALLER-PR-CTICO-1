@@ -25,13 +25,12 @@ namespace Prototype.Classes
                 this.type = type;
                 this.power = power;
             }
-
+            else Console.WriteLine("Choose a proper type and power"); 
         }
 
-
-        public string Name { get => name; set => name = value; }
-        public string Affinity { get => affinity; set => affinity = value; }
-        public string Type { get => type; set => type = value; }
-        public float Power { get => power; set => power = value; }
+        public string Name { get => name; }
+        public string Affinity { get => affinity;  }
+        public string Type { get => type; }
+        public float Power { get => power; }
     }
 }

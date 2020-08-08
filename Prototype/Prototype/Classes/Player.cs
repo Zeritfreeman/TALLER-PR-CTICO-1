@@ -9,7 +9,7 @@ namespace Prototype.Classes
         string name;
         Critter[] critters = new Critter[3];
         int currentCritters = 0;
-        List<string> collection;
+        public List<string> collection;
 
         public Player(string name, Critter[] critters)
         {
@@ -17,7 +17,7 @@ namespace Prototype.Classes
             for (int i = 0; i < this.critters.Length; i++)
             {
                 this.critters[i] = critters[i];
-                if (critters[i] != null) currentCritters++;
+                if (critters[i] != null) currentCritters++; 
             }
         }
 
@@ -30,5 +30,7 @@ namespace Prototype.Classes
         }
 
         public string Name { get => name; }
+        public int CurrentCritters { get => currentCritters; }
+        internal Critter[] Critters { get => critters; }
     }
 }
